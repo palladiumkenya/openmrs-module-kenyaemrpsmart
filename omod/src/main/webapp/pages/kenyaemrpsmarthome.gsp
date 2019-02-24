@@ -5,23 +5,25 @@
     ]
 %>
 <style>
-div.grid      { display:block; }
-div.grid div  { float: left; height: 30px; }
-div.column-one    { width: 300px; }
-div.column-two    { width: 100px; }
-div.column-three    { width: 120px; }
-div.column-four      { width: 120px; }
-div.column-five       { width: 120px; }
-div.column-six       { width: 100px; }
-div.clear     { clear: both; }
-.col-header {font-weight: bold; font-size: 14px;}
-div.section-title {
-    color: black;
-    font-weight: bold;
-    display: block;
-    width: 550px;
-    float: left;
-    font-size: 16px;
+.simple-table {
+    border: solid 1px #0a132c;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 16px Arial, sans-serif;
+}
+.simple-table th {
+    background-color: #DDEFEF;
+    border: solid 1px #0a132c;
+    color: #336B6B;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px #fff;
+}
+.simple-table td {
+    border: solid 1px #0a132c;
+    color: #333;
+    padding: 14px;
+    text-shadow: 1px 1px 1px #fff;
 }
 </style>
 
@@ -32,89 +34,120 @@ div.section-title {
 </div>
 
 <div class="ke-page-content">
-    <div class="ke-panel-frame">
-        <div class="ke-panel-heading">P-Smart Data History </div>
-        <div class="ke-panel-content">
-            <div class="section-title">Statistics</div><div class="clear"></div>
-            <div class="grid">
-                <div class="column-one">&nbsp;</div>
-                <div class="column-two col-header">Total Tests</div>
-                <div class="column-three col-header">Total Immunizations</div>
-                <div class="column-four col-header">&nbsp;</div>
-                <div class="column-five col-header">&nbsp;</div>
-            </div>
-            <div class="clear"></div>
-            <div class="grid">
-                <div class="column-one">&nbsp;</div>
-                <div class="column-two col-header">${summaries.totalTests}</div>
-                <div class="column-three col-header">${summaries.totalImmunizations}</div>
-                <div class="column-four col-header">&nbsp;</div>
-                <div class="column-five col-header">&nbsp;</div>
-            </div>
-            <div class="clear"></div>
 
-            <div class="section-title">Test History</div><div class="clear"></div>
-            <% if (existingTests) { %>
-            <div class="grid">
-                <div class="column-one">&nbsp;</div>
-                <div class="column-two col-header">Date Tested</div>
-                <div class="column-three col-header">Result</div>
-                <div class="column-four col-header">Test Type </div>
-                <div class="column-five col-header">Test Strategy</div>
-                <div class="column-six col-header">Test Facility</div>
-            </div>
-            <div class="clear"></div>
-            <% existingTests.each { rel -> %>
-            <div class="ke-stack-item">
-                <div class="grid">
-                    <div class="column-one">
-                        &nbsp;
-                    </div>
-                    <div class="column-two">${rel.dateTested}</div>
-                    <div class="column-three">${rel.result}</div>
-                    <div class="column-four">${rel.type}</div>
-                    <div class="column-five">${rel.strategy}</div>
-                    <div class="column-six">${rel.facility}</div>
-                </div>
-                <div class="clear"></div>
+    <div id="program-tabs" class="ke-tabs">
+        <div class="ke-tabmenu">
+            <div class="ke-tabmenu-item" data-tabid="summaries">P-SMART Summaries</div>
+
+            <div class="ke-tabmenu-item" data-tabid="hivtesting">HIV Testing Data</div>
+
+            <div class="ke-tabmenu-item" data-tabid="immunization">Immunization Data</div>
 
 
-            </div>
-            <% } } else {%>
-            No HIV Test found
-            <% } %>
-
-            <div class="section-title">Immunizations History</div><div class="clear"></div>
-            <% if (existingImmunizations) { %>
-            <div class="grid">
-                <div class="column-one">&nbsp;</div>
-                <div class="column-two col-header">Date</div>
-                <div class="column-three col-header">Vaccination</div>
-                <div class="column-four col-header">&nbsp;</div>
-                <div class="column-five col-header">&nbsp;</div>
-                <div class="column-six col-header">&nbsp;</div>
-            </div>
-            <div class="clear"></div>
-            <% existingImmunizations.each { rel -> %>
-            <div class="ke-stack-item">
-                <div class="grid">
-                    <div class="column-one">
-                        &nbsp;
-                    </div>
-                    <div class="column-two">${rel.vaccinationDate}</div>
-                    <div class="column-three">${rel.vaccination}</div>
-                    <div class="column-four">&nbsp;</div>
-                    <div class="column-five">&nbsp;</div>
-                    <div class="column-six">&nbsp;</div>
-                </div>
-                <div class="clear"></div>
-
-
-            </div>
-            <% } } else {%>
-            No Immunization data found
-            <% } %>
         </div>
 
+        <div class="ke-tab" data-tabid="summaries">
+            <table cellspacing="0" cellpadding="0" width="100%" class="simple-table">
+                <tr>
+                    <td style="width: 70%; vertical-align: top">
+
+                        <div class="ke-panel-frame">
+                            <div class="ke-panel-heading"></div>
+                            <div class="ke-panel-content">
+                                <table>
+                                    <tr>
+                                        <th colspan="2" align="left">Statistics</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Total Tests</td>
+                                        <td>${summaries.totalTests}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total Immunizations</td>
+                                        <td>${summaries.totalImmunizations}</td>
+                                    </tr>
+                                </table>
+
+
+                            </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="ke-tab" data-tabid="hivtesting">
+            <table cellspacing="0" cellpadding="0" width="100%" class="simple-table">
+                <tr>
+                    <td style="width: 50%; vertical-align: top">
+                        <div class="ke-panel-frame">
+                            <div class="ke-panel-heading"></div>
+
+                            <div class="ke-panel-content">
+                                <% if (existingTests) { %>
+                                <table>
+                                <tr>
+                                    <td>Date Tested</td>
+                                    <td>Result</td>
+                                    <td>Test Type</td>
+                                    <td>Test Strategy</td>
+                                    <td>Test Facility</td>
+                                </tr>
+                                <% existingTests.each { rel -> %>
+                                <tr>
+                                        <td>${rel.dateTested}</td>
+                                        <td>${rel.result}</td>
+                                        <td>${rel.type}</td>
+                                        <td>${rel.strategy}</td>
+                                        <td>${rel.facility}</td>
+
+
+                                </tr>
+                                <% } %>
+                            </table>
+                                <% }  else {%>
+                                No HIV Test found
+                                <% } %>
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+        <div class="ke-tab" data-tabid="immunization">
+            <table cellspacing="0" cellpadding="0" width="100%">
+                <tr>
+                    <td style="width: 50%; vertical-align: top">
+                        <div class="ke-panel-frame">
+                            <div class="ke-panel-heading"></div>
+
+                            <div class="ke-panel-content">
+                                <% if (existingImmunizations) { %>
+                                <table class="simple-table">
+                                <tr>
+                                    <td>Date</td>
+                                    <td>Vaccination</td>
+                                </tr>
+
+                                <% existingImmunizations.each { rel -> %>
+                                <tr>
+                                    <td>${rel.vaccinationDate}</td>
+                                    <td>${rel.vaccination}</td>
+                                </tr>
+
+                                <% } %>
+                            </table>
+                                <% } else {%>
+                                No Immunization data found
+                                <% } %>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br/>
+        <br/>
+        <br/>
     </div>
 </div>

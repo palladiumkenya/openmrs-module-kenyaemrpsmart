@@ -92,7 +92,6 @@ public class PSMARTRestController extends BaseRestController {
 		try {
 			encryptedSHR = SHRUtils.fetchRequestBody(request.getReader());//request.getParameter("encryptedSHR") != null? request.getParameter("encryptedSHR"): null;
 		} catch (IOException e) {
-			//e.printStackTrace();
 			return new SimpleObject().add("ServerResponse", "Error extracting request body");
 		}
 

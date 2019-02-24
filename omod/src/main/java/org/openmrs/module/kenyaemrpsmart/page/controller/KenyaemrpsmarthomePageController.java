@@ -41,7 +41,6 @@ import java.util.Set;
 /**
  * Controller class for cohort import page
  */
-//@SharedPage({"kenyaemr.registration", "kenyaemr.intake", "kenyaemr.medicalEncounter"})
 
 public class KenyaemrpsmarthomePageController {
 
@@ -68,6 +67,7 @@ public class KenyaemrpsmarthomePageController {
 
         List<SimpleObject> getTests = getHivTests(patient);
         Set<SimpleObject> getImmunizations = extractImmunizationData(patient);
+        getImmunizations.addAll(extractImmunizationDataFromPsmartEncounter(patient));
         model.addAttribute("summaries", SimpleObject.create("totalTests", getTests.size(), "totalImmunizations", getImmunizations.size()));
         model.addAttribute("patient", patient);
         model.addAttribute("existingTests", getTests);
@@ -81,6 +81,8 @@ public class KenyaemrpsmarthomePageController {
         Concept groupingConcept = conceptService.getConcept(1421);
         Concept	vaccineConcept = conceptService.getConcept(984);
         Concept sequenceNumber = conceptService.getConcept(1418);
+        Concept dateGiven = conceptService.getConcept(1282);
+        Concept dateGivenConcept2 = conceptService.getConcept(1410);
 
         List<ImmunizationWrapper> getList = new ArrayList<ImmunizationWrapper>();
         // get immunizations from immunization form
@@ -96,6 +98,7 @@ public class KenyaemrpsmarthomePageController {
                 null,
                 false
         );
+
 
         List<ImmunizationWrapper> immunizationList = new ArrayList<ImmunizationWrapper>();
         // extract blocks of vaccines organized by grouping concept
@@ -119,7 +122,76 @@ public class KenyaemrpsmarthomePageController {
                 ImmunizationWrapper groupWrapper;
                 Concept vaccine = null;
                 Integer sequence = 1000;
-                Date vaccineDate = obs.get(0).getObsDatetime();
+                Date vaccineDate = null;
+                Set<Obs> members = group.getGroupMembers();
+                // iterate through obs for a particular group
+                for (Obs memberObs : members) {
+                    if (memberObs.getConcept().equals(vaccineConcept) ) {
+                        vaccine = memberObs.getValueCoded();
+                    } else if (memberObs.getConcept().equals(sequenceNumber)) {
+                        sequence = memberObs.getValueNumeric() != null? memberObs.getValueNumeric().intValue() : 1000; // put 1000 for null
+                    } else if (memberObs.getConcept().equals(dateGiven) || memberObs.getConcept().equals(dateGivenConcept2)) {
+                        vaccineDate = memberObs.getValueDate();
+                    }
+                }
+                immunizationList.add(new ImmunizationWrapper(vaccine, sequence, vaccineDate));
+
+            }
+        }
+        Set<SimpleObject> convertedImmunizations = new HashSet<SimpleObject>();
+
+        for(ImmunizationWrapper entry : immunizationList) {
+            convertedImmunizations.add(vaccineConverterNode(entry));
+        }
+
+        return convertedImmunizations;
+    }
+
+    private Set<SimpleObject> extractImmunizationDataFromPsmartEncounter(Patient patient) {
+
+        Concept groupingConcept = conceptService.getConcept(1421);
+        Concept	vaccineConcept = conceptService.getConcept(984);
+        Concept sequenceNumber = conceptService.getConcept(1418);
+
+        List<ImmunizationWrapper> getList = new ArrayList<ImmunizationWrapper>();
+        List<ImmunizationWrapper> immunizationList = new ArrayList<ImmunizationWrapper>();
+
+        // get immunizations from immunization form
+        List<Encounter> immunizationEncounters = encounterService.getEncounters(
+                patient,
+                null,
+                null,
+                null,
+                Arrays.asList(Context.getFormService().getFormByUuid(SmartCardMetadata._Form.PSMART_IMMUNIZATION)),
+                null,
+                null,
+                null,
+                null,
+                false
+        );
+
+        // extract blocks of vaccines organized by grouping concept
+        for(Encounter encounter : immunizationEncounters) {
+            List<Obs> obs = obsService.getObservations(
+                    Arrays.asList(Context.getPersonService().getPerson(patient.getPersonId())),
+                    Arrays.asList(encounter),
+                    Arrays.asList(groupingConcept),
+                    null,
+                    null,
+                    null,
+                    Arrays.asList("obsId"),
+                    null,
+                    null,
+                    null,
+                    null,
+                    false
+            );
+            // Iterate through groups
+            for(Obs group : obs) {
+                ImmunizationWrapper groupWrapper;
+                Concept vaccine = null;
+                Integer sequence = 1000;
+                Date vaccineDate = group.getObsDatetime();
                 Set<Obs> members = group.getGroupMembers();
                 // iterate through obs for a particular group
                 for (Obs memberObs : members) {
