@@ -1,5 +1,6 @@
 package org.openmrs.module.kenyaemrpsmart.jsonvalidator.mapper;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Attributable;
@@ -429,6 +430,7 @@ public class IncomingPatientSHR {
         PatientIdentifierType SMART_CARD_SERIAL_NUMBER_TYPE = patientService.getPatientIdentifierTypeByUuid(SmartCardMetadata._PatientIdentifierType.SMART_CARD_SERIAL_NUMBER);
         PatientIdentifierType HTS_NUMBER_TYPE = patientService.getPatientIdentifierTypeByUuid(SmartCardMetadata._PatientIdentifierType.HTS_NUMBER);
         PatientIdentifierType GODS_NUMBER_TYPE = patientService.getPatientIdentifierTypeByUuid(SmartCardMetadata._PatientIdentifierType.GODS_NUMBER);
+        PatientIdentifierType KIP_ID = patientService.getPatientIdentifierTypeByUuid(SmartCardMetadata._PatientIdentifierType.KIP_ID);
 
         // extract GOD's Number
         String shrGodsNumber = SHRUtils.getSHR(incomingSHR).pATIENT_IDENTIFICATION.eXTERNAL_PATIENT_ID.iD;
@@ -486,6 +488,8 @@ public class IncomingPatientSHR {
                     identifierType = SMART_CARD_SERIAL_NUMBER_TYPE;
                 } else if (idType.equals("HTS_NUMBER")) {
                     identifierType = HTS_NUMBER_TYPE;
+                } else if (idType.equals("KIP_ID")) {
+                    identifierType = KIP_ID;
                 } else {
                     continue;
                 }
@@ -654,7 +658,7 @@ public class IncomingPatientSHR {
         Set<SmartCardHivTest> incomingTests = new HashSet<SmartCardHivTest>();
         Set<SmartCardHivTest> existingTests = new HashSet<SmartCardHivTest>(getHivTests());
 
-        if (SHRUtils.getSHR(this.incomingSHR).hIV_TEST != null) {
+        if (ArrayUtils.isNotEmpty(SHRUtils.getSHR(this.incomingSHR).hIV_TEST) && SHRUtils.getSHR(this.incomingSHR).hIV_TEST != null) {
             for (int i = 0; i < SHRUtils.getSHR(this.incomingSHR).hIV_TEST.length; i++) {
 
                 String dateStr = SHRUtils.getSHR(this.incomingSHR).hIV_TEST[i].dATE;
@@ -800,6 +804,9 @@ public class IncomingPatientSHR {
     private void saveImmunizationData() {
         Set<ImmunizationWrapper> immunizationData = new HashSet<ImmunizationWrapper>(processImmunizationDataFromSHR());
         Set<ImmunizationWrapper> existingImmunizationData = new HashSet<ImmunizationWrapper>(getAllImmunizationDataFromDb());
+
+        System.out.println("Immunizations in the incoming SHR: ================> " + immunizationData);
+        System.out.println("Existing immunizations: ================> " + existingImmunizationData);
 
         if (immunizationData.size() > 0) {
             Iterator<ImmunizationWrapper> ite = immunizationData.iterator();
@@ -980,7 +987,7 @@ public class IncomingPatientSHR {
         Concept YELLOW_FEVER = conceptService.getConcept(5864);
 
         List<ImmunizationWrapper> shrData = new ArrayList<ImmunizationWrapper>();
-        if (SHRUtils.getSHR(this.incomingSHR).iMMUNIZATION != null) {
+        if (ArrayUtils.isNotEmpty(SHRUtils.getSHR(this.incomingSHR).iMMUNIZATION) && SHRUtils.getSHR(this.incomingSHR).iMMUNIZATION != null) {
             for (int i = 0; i < SHRUtils.getSHR(this.incomingSHR).iMMUNIZATION.length; i++) {
 
                 String name = SHRUtils.getSHR(this.incomingSHR).iMMUNIZATION[i].nAME;

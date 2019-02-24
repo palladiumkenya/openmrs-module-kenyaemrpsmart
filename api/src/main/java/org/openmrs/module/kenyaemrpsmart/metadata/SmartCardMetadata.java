@@ -34,6 +34,7 @@ public class SmartCardMetadata extends AbstractMetadataBundle {
 		public static final String SMART_CARD_SERIAL_NUMBER = "8f842498-1c5b-11e8-accf-0ed5f89f718b";
 		public static final String HTS_NUMBER = "e6af3782-1cb3-11e8-accf-0ed5f89f718b";
 		public static final String GODS_NUMBER = "9aedb9ae-1cbd-11e8-accf-0ed5f89f718b";
+		public static final String KIP_ID = "c95bacd2-3847-11e9-b210-d663bd873d93";
 	}
 
 	public static final class _Form {
@@ -62,6 +63,9 @@ public class SmartCardMetadata extends AbstractMetadataBundle {
 
 		install(patientIdentifierType("GODS Number", "Number assigned by MPI", null, null,
 				null, PatientIdentifierType.LocationBehavior.NOT_USED, false, _PatientIdentifierType.GODS_NUMBER));
+
+		install(patientIdentifierType("KIP ID", "Number assigned by KIP Application", null, null,
+				null, PatientIdentifierType.LocationBehavior.NOT_USED, false, _PatientIdentifierType.KIP_ID));
 		install(encounterType("External P-Smart", "Holds data read from smart card and  belong to other facilities/systems", _EncounterType.EXTERNAL_PSMART_DATA));
 
 		install(form("P-Smart HIV Test Form", "Holds HTS data read from smart card", _EncounterType.EXTERNAL_PSMART_DATA, "1", _Form.PSMART_HIV_TEST));

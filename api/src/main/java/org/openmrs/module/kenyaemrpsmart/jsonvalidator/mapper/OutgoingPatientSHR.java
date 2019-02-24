@@ -837,6 +837,8 @@ public class OutgoingPatientSHR {
         Concept groupingConcept = conceptService.getConcept(1421);
         Concept vaccineConcept = conceptService.getConcept(984);
         Concept sequenceNumber = conceptService.getConcept(1418);
+        Concept dateGiven = conceptService.getConcept(1282);
+        Concept dateGivenConcept2 = conceptService.getConcept(1410);
 
         ArrayNode immunizationNode = getJsonNodeFactory().arrayNode();
         // get immunizations from immunization form
@@ -875,7 +877,7 @@ public class OutgoingPatientSHR {
                 ImmunizationWrapper groupWrapper;
                 Concept vaccine = null;
                 Integer sequence = 1000;
-                Date vaccineDate = obs.get(0).getObsDatetime();
+                Date vaccineDate = null; //obs.get(0).getObsDatetime();
                 Set<Obs> members = group.getGroupMembers();
                 // iterate through obs for a particular group
                 for (Obs memberObs : members) {
@@ -883,6 +885,8 @@ public class OutgoingPatientSHR {
                         vaccine = memberObs.getValueCoded();
                     } else if (memberObs.getConcept().equals(sequenceNumber)) {
                         sequence = memberObs.getValueNumeric() != null ? memberObs.getValueNumeric().intValue() : 1000; // put 1000 for null
+                    } else if (memberObs.getConcept().equals(dateGiven) || memberObs.getConcept().equals(dateGivenConcept2)) {
+                        vaccineDate = memberObs.getValueDate();
                     }
                 }
                 immunizationList.add(new ImmunizationWrapper(vaccine, sequence, vaccineDate));
