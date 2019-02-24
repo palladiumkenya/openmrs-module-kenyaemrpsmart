@@ -475,7 +475,7 @@ public class IncomingPatientSHR {
                 ancNumberObs.setValueText(identifier);
                 ancNumberObs.setPerson(this.patient);
                 ancNumberObs.setObsDatetime(new Date());
-                obsService.saveObs(ancNumberObs, null);*/
+                obsService.(ancNumberObs, null);*/
 
             } else {
                 if (idType.equals("HEI_NUMBER")) {
