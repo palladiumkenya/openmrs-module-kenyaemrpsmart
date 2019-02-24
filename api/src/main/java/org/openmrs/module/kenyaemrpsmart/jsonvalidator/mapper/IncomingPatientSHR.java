@@ -915,6 +915,8 @@ public class IncomingPatientSHR {
         Concept groupingConcept = conceptService.getConcept(1421);
         Concept vaccineConcept = conceptService.getConcept(984);
         Concept sequenceNumber = conceptService.getConcept(1418);
+        Concept dateGiven = conceptService.getConcept(1282);
+        Concept dateGivenConcept2 = conceptService.getConcept(1410);
         Form pSmartImmunizationForm = Context.getFormService().getFormByUuid(SmartCardMetadata._Form.PSMART_IMMUNIZATION);
 
 
@@ -954,7 +956,7 @@ public class IncomingPatientSHR {
                 ImmunizationWrapper groupWrapper;
                 Concept vaccine = null;
                 Integer sequence = null;
-                Date vaccineDate = obs.get(0).getObsDatetime();
+                Date vaccineDate = null;
                 Set<Obs> members = group.getGroupMembers();
                 // iterate through obs for a particular group
                 for (Obs memberObs : members) {
@@ -962,6 +964,8 @@ public class IncomingPatientSHR {
                         vaccine = memberObs.getValueCoded();
                     } else if (memberObs.getConcept().equals(sequenceNumber)) {
                         sequence = memberObs.getValueNumeric() != null ? memberObs.getValueNumeric().intValue() : sequence;
+                    } else if (memberObs.getConcept().equals(dateGiven) || memberObs.getConcept().equals(dateGivenConcept2)) {
+                        vaccineDate = memberObs.getValueDate();
                     }
                 }
                 immunizationList.add(new ImmunizationWrapper(vaccine, sequence, vaccineDate));
