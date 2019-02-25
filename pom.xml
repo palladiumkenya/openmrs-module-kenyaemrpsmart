@@ -4,7 +4,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>kenyaemrpsmart</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<packaging>pom</packaging>
 	<name>KenyaEMR P-SMART Module</name>
 	<description>Provides REST end points to interface with P-SMART Middleware</description>
