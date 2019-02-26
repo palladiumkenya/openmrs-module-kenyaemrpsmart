@@ -805,9 +805,6 @@ public class IncomingPatientSHR {
         Set<ImmunizationWrapper> immunizationData = new HashSet<ImmunizationWrapper>(processImmunizationDataFromSHR());
         Set<ImmunizationWrapper> existingImmunizationData = new HashSet<ImmunizationWrapper>(getAllImmunizationDataFromDb());
 
-        System.out.println("Immunizations in the incoming SHR: ================> " + immunizationData);
-        System.out.println("Existing immunizations: ================> " + existingImmunizationData);
-
         if (immunizationData.size() > 0) {
             Iterator<ImmunizationWrapper> ite = immunizationData.iterator();
             while (ite.hasNext()) {
@@ -1004,6 +1001,10 @@ public class IncomingPatientSHR {
                     ex.printStackTrace();
                 }
                 ImmunizationWrapper entry = new ImmunizationWrapper();
+
+                if (name == null || "".equals("")) {
+                    continue;
+                }
 
                 if (name.trim().equals("BCG")) {
                     entry.setVaccine(BCG);

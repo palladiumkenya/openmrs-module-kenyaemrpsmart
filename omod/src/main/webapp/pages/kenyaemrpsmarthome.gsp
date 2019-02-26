@@ -56,9 +56,6 @@
                             <div class="ke-panel-content">
                                 <table>
                                     <tr>
-                                        <th colspan="2" align="left">Statistics</th>
-                                    </tr>
-                                    <tr>
                                         <td>Total Tests</td>
                                         <td>${summaries.totalTests}</td>
                                     </tr>
