@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -279,11 +280,13 @@ public class PSMARTRestController extends BaseRestController {
 	@ResponseBody
 	public Object getKenyaEMRDetails(HttpServletRequest request) {
 
+
+
 		return "{\n" +
 				"    \"EmrName\":\"KenyaEMR\",\n" +
-				"    \"EmrVersion\":\"17.0.0\",\n" +
-				"    \"LastLoginDate\":\"\",\n" +
-				"    \"LastMoH731RunDate\":\"\"\n" +
+				"    \"EmrVersion\":\"" + SHRUtils.getKenyaemrVersion() + "\",\n" +
+				"    \"LastLoginDate\":\"" + SHRUtils.getLastLogin() + "\",\n" +
+				"    \"LastMoH731RunDate\":\"" + SHRUtils.getDateofLastMOH731() + "\"" +
 				"}";
 	}
 

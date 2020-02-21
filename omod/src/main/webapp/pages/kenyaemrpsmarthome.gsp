@@ -47,7 +47,7 @@
         </div>
 
         <div class="ke-tab" data-tabid="summaries">
-            <table cellspacing="0" cellpadding="0" width="100%" class="simple-table">
+            <table width="100%" class="simple-table">
                 <tr>
                     <td style="width: 70%; vertical-align: top">
 
@@ -56,11 +56,11 @@
                             <div class="ke-panel-content">
                                 <table>
                                     <tr>
-                                        <td>Total Tests</td>
+                                        <th align="left">Total Tests</th>
                                         <td>${summaries.totalTests}</td>
                                     </tr>
                                     <tr>
-                                        <td>Total Immunizations</td>
+                                        <th align="left">Total Immunizations</th>
                                         <td>${summaries.totalImmunizations}</td>
                                     </tr>
                                 </table>
@@ -72,7 +72,7 @@
             </table>
         </div>
         <div class="ke-tab" data-tabid="hivtesting">
-            <table cellspacing="0" cellpadding="0" width="100%" class="simple-table">
+            <table width="100%" class="simple-table">
                 <tr>
                     <td style="width: 50%; vertical-align: top">
                         <div class="ke-panel-frame">
@@ -82,11 +82,11 @@
                                 <% if (existingTests) { %>
                                 <table>
                                 <tr>
-                                    <td>Date Tested</td>
-                                    <td>Result</td>
-                                    <td>Test Type</td>
-                                    <td>Test Strategy</td>
-                                    <td>Test Facility</td>
+                                    <th align="left">Date Tested</th>
+                                    <th align="left">Result</th>
+                                    <th align="left">Test Type</th>
+                                    <th align="left">Test Strategy</th>
+                                    <th align="left">Test Facility</th>
                                 </tr>
                                 <% existingTests.each { rel -> %>
                                 <tr>
@@ -111,7 +111,7 @@
             </table>
         </div>
         <div class="ke-tab" data-tabid="immunization">
-            <table cellspacing="0" cellpadding="0" width="100%">
+            <table width="100%">
                 <tr>
                     <td style="width: 50%; vertical-align: top">
                         <div class="ke-panel-frame">
@@ -121,8 +121,8 @@
                                 <% if (existingImmunizations) { %>
                                 <table class="simple-table">
                                 <tr>
-                                    <td>Date</td>
-                                    <td>Vaccination</td>
+                                    <th align="left">Date</th>
+                                    <th align="left">Vaccination</th>
                                 </tr>
 
                                 <% existingImmunizations.each { rel -> %>
