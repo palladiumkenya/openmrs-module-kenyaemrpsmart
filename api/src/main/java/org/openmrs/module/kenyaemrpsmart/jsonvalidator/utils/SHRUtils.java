@@ -9,16 +9,36 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
+import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
+import org.openmrs.Patient;
+import org.openmrs.api.context.Context;
+import org.openmrs.module.kenyaemr.HivConstants;
+import org.openmrs.module.kenyaemr.metadata.HivMetadata;
+import org.openmrs.module.kenyaemr.util.EmrUtils;
+import org.openmrs.module.kenyaemr.util.HtsConstants;
+import org.openmrs.module.kenyaemr.util.ServerInformation;
 import org.openmrs.module.kenyaemrpsmart.jsonvalidator.mapper.SHR;
+import org.openmrs.module.reporting.report.ReportRequest;
+import org.openmrs.module.reporting.report.definition.ReportDefinition;
+import org.openmrs.module.reporting.report.service.ReportService;
+import org.openmrs.util.OpenmrsUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
  * @author tedb19
  */
 public class SHRUtils {
+
 
     public static SHR getSHR(String SHRStr) {
         ObjectMapper mapper = new ObjectMapper();
@@ -122,5 +142,60 @@ public class SHRUtils {
 
         }
         return requestBodyJsonStr;
+    }
+
+    public static String getKenyaemrVersion() {
+        Map<String, Object> kenyaemrInfo = ServerInformation.getKenyaemrInformation();
+
+        String moduleVersion = (String) kenyaemrInfo.get("version");
+
+        return moduleVersion;
+    }
+
+    public static String getLastLogin() {
+        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MMM-dd");
+
+
+        Encounter lastFollowupEnc = EmrUtils.lastEncounter(null, Context.getEncounterService().getEncounterTypeByUuid(HivMetadata._EncounterType.HIV_CONSULTATION));
+        if (lastFollowupEnc != null) {
+             return DATE_FORMAT.format(lastFollowupEnc.getDateCreated());
+        }
+        return null;
+
+    }
+
+    public static String getDateofLastMOH731() {
+        String moh731ReportDefUuid = "a66bf454-2a11-4e51-b28d-3d7ece76aa13";
+        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MMM-dd");
+        List<ReportRequest> reports = fetchRequests(moh731ReportDefUuid, true, Context.getService(ReportService.class));
+        if (reports != null) {
+            return DATE_FORMAT.format(reports.get(0).getEvaluateStartDatetime());
+        }
+
+        return null;
+    }
+
+    public static List<ReportRequest> fetchRequests(String reportUuid, boolean finishedOnly, ReportService reportService) {
+        ReportDefinition definition = null;
+
+        // Hack to avoid loading (and thus de-serialising) the entire report
+        if (StringUtils.isNotEmpty(reportUuid)) {
+            definition = new ReportDefinition();
+            definition.setUuid(reportUuid);
+        }
+
+        List<ReportRequest> requests = (finishedOnly)
+                ? reportService.getReportRequests(definition, null, null, ReportRequest.Status.COMPLETED, ReportRequest.Status.FAILED)
+                : reportService.getReportRequests(definition, null, null);
+
+        // Sort by requested date desc (more sane than the default sorting)
+        Collections.sort(requests, new Comparator<ReportRequest>() {
+            @Override
+            public int compare(ReportRequest request1, ReportRequest request2) {
+                return OpenmrsUtil.compareWithNullAsEarliest(request2.getRequestDate(), request1.getRequestDate());
+            }
+        });
+
+        return requests;
     }
 }
