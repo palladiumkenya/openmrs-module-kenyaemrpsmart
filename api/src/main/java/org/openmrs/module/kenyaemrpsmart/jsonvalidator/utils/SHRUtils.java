@@ -160,7 +160,7 @@ public class SHRUtils {
         if (lastFollowupEnc != null) {
              return DATE_FORMAT.format(lastFollowupEnc.getDateCreated());
         }
-        return null;
+        return "";
 
     }
 
@@ -168,11 +168,11 @@ public class SHRUtils {
         String moh731ReportDefUuid = "a66bf454-2a11-4e51-b28d-3d7ece76aa13";
         SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MMM-dd");
         List<ReportRequest> reports = fetchRequests(moh731ReportDefUuid, true, Context.getService(ReportService.class));
-        if (reports != null) {
+        if (reports != null && !reports.isEmpty()) {
             return DATE_FORMAT.format(reports.get(0).getEvaluateStartDatetime());
         }
 
-        return null;
+        return "";
     }
 
     public static List<ReportRequest> fetchRequests(String reportUuid, boolean finishedOnly, ReportService reportService) {
