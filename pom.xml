@@ -50,7 +50,7 @@
 		<metadatasharingVersion>1.1.8</metadatasharingVersion>
 		<reportingVersion>0.9.8.1</reportingVersion>
 		<serializationxstreamVersion>0.2.7</serializationxstreamVersion>
-		<jacksonVersion>2.9.2</jacksonVersion>
+		<jacksonVersion>2.11.0</jacksonVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
