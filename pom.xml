@@ -33,13 +33,13 @@
 	</modules>
 	
 	<properties>
-		<openMRSVersion>1.9.10</openMRSVersion>
+		<openMRSVersion>2.4.0</openMRSVersion>
 		<!-- Module dependencies -->
 
 		<webservicesRestVersion>2.1</webservicesRestVersion>
-		<kenyaemrVersion>17.1.0-SNAPSHOT</kenyaemrVersion>
-		<kenyacoreVersion>2.2</kenyacoreVersion>
-		<kenyauiVersion>2.0.3</kenyauiVersion>
+		<kenyaemrVersion>17.3.2</kenyaemrVersion>
+		<kenyacoreVersion>2.4.2</kenyacoreVersion>
+		<kenyauiVersion>2.1.2</kenyauiVersion>
 		<appframeworkVersion>2.2.1</appframeworkVersion>
 		<uiframeworkVersion>3.3.1</uiframeworkVersion>
 		<calculationVersion>1.0</calculationVersion>
@@ -49,6 +49,7 @@
 		<metadatadeployVersion>1.2</metadatadeployVersion>
 		<metadatasharingVersion>1.1.8</metadatasharingVersion>
 		<reportingVersion>0.9.8.1</reportingVersion>
+		<legacyUiVersion>1.5.0</legacyUiVersion>
 		<serializationxstreamVersion>0.2.7</serializationxstreamVersion>
 		<jacksonVersion>2.9.2</jacksonVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -131,6 +132,19 @@
 				<groupId>org.openmrs.module</groupId>
 				<artifactId>metadatadeploy-api</artifactId>
 				<version>${metadatadeployVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>legacyui-api</artifactId>
+				<version>${legacyUiVersion}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>legacyui-omod</artifactId>
+				<version>${legacyUiVersion}</version>
 				<scope>provided</scope>
 			</dependency>
 

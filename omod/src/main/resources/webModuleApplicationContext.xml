@@ -25,10 +25,6 @@
 		<property name="moduleId" value="kenyaemrpsmart"/>
 	</bean>
 
-	 
-	<!-- Annotation based controllers -->
-	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
-	
 	<context:component-scan base-package="org.openmrs.module.kenyaemrpsmart.web.controller" />
 
 		
