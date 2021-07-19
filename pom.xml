@@ -4,7 +4,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>kenyaemrpsmart</artifactId>
-	<version>1.0.2</version>
+	<version>1.1.0</version>
 	<packaging>pom</packaging>
 	<name>KenyaEMR P-SMART Module</name>
 	<description>Provides REST end points to interface with P-SMART Middleware</description>
@@ -37,18 +37,18 @@
 		<!-- Module dependencies -->
 
 		<webservicesRestVersion>2.1</webservicesRestVersion>
-		<kenyaemrVersion>17.3.2</kenyaemrVersion>
-		<kenyacoreVersion>2.4.2</kenyacoreVersion>
-		<kenyauiVersion>2.1.2</kenyauiVersion>
+		<kenyaemrVersion>18.0.0</kenyaemrVersion>
+		<kenyacoreVersion>3.0.0</kenyacoreVersion>
+		<kenyauiVersion>3.0.0</kenyauiVersion>
 		<appframeworkVersion>2.2.1</appframeworkVersion>
 		<uiframeworkVersion>3.3.1</uiframeworkVersion>
-		<calculationVersion>1.0</calculationVersion>
-		<htmlformentryVersion>2.4</htmlformentryVersion>
-		<htmlwidgetsVersion>1.6.6</htmlwidgetsVersion>
-		<idgenVersion>2.6</idgenVersion>
-		<metadatadeployVersion>1.2</metadatadeployVersion>
-		<metadatasharingVersion>1.1.8</metadatasharingVersion>
-		<reportingVersion>0.9.8.1</reportingVersion>
+		<calculationVersion>1.2</calculationVersion>
+		<htmlformentryVersion>3.9.2</htmlformentryVersion>
+		<htmlwidgetsVersion>1.10.0</htmlwidgetsVersion>
+		<idgenVersion>4.5.0</idgenVersion>
+		<metadatadeployVersion>1.11.0</metadatadeployVersion>
+		<metadatasharingVersion>1.5.0</metadatasharingVersion>
+		<reportingVersion>1.18.0</reportingVersion>
 		<legacyUiVersion>1.5.0</legacyUiVersion>
 		<serializationxstreamVersion>0.2.7</serializationxstreamVersion>
 		<jacksonVersion>2.9.2</jacksonVersion>
