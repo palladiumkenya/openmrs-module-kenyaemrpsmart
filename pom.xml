@@ -37,7 +37,7 @@
 		<!-- Module dependencies -->
 
 		<webservicesRestVersion>2.1</webservicesRestVersion>
-		<kenyaemrVersion>17.1.0-SNAPSHOT</kenyaemrVersion>
+		<kenyaemrVersion>17.1.0</kenyaemrVersion>
 		<kenyacoreVersion>2.2</kenyacoreVersion>
 		<kenyauiVersion>2.0.3</kenyauiVersion>
 		<appframeworkVersion>2.2.1</appframeworkVersion>
